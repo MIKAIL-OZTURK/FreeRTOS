@@ -27,12 +27,16 @@ tipinin kesin olmadığı(int ,float,char vb) zamanlarda void* ile parametre ge�
 
 ###### ÖRNEK
 ```c
+#define USART_TRANSMIT(__MESSAGE__) 		( HAL_UART_Transmit(&huart1, (uint8_t*)__MESSAGE__, strlen(__MESSAGE__), 6) 100)
+
 void Task1(void *pvParammeters)
 {
+	size_t size = xPortGetFreeHeapSize();			// Heap'te ne kadar boş alan kaldı ? 
+	
 	while(1)
 	{
 		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-		vTaskDelay(pdMS_TO_TICKS(500));
+		vTaskDelay(pdMS_TO_TICKS(500));			// vTaskDelay() - Convert to milisecond to tick
 	}
 }
 
@@ -40,15 +44,29 @@ void Task2(void *pvParameters)
 {
 	while(1)
 	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+		USART_TRANSMIT((char *) pvParameters);		// Task2 fonksiyonuna parametre gönderme
 		vTaskDelay(pdMS_TO_TICKS(200));
 	}
 }
 
 int main()
 {
-	xTaskCreate(Task1, "t1", 128, NULL, 0, NULL);
-	xTaskCreate(Task2, "t2", 128, NULL, 0, NULL);
+	xTaskCreate(Task1, "t1", 100, NULL, 0, NULL);
+	xTaskCreate(Task2, "t2", 100, (void*)"Task2 ise running...", 0, NULL);		
+	/*
+	/************************** HEAP SİZE **************************/
+	- Her oluşturulan RTOS nesnesi heap içerisinde yer kaplamaktadır. 
+	
+	Task1 = 100 x 4 = 400 byte
+	Task2 = 100 x 4 = 400 byte
+	
+	Başlangıçta Heap Size:
+	#define configTOTAL_HEAP_SIZE                    ((size_t)(5*1024))	// 5kb
+	
+	Debug ekranından "size" değişkeninin boyutu: 3480 (Yaklaşık 3.5Kb boş alan mevcut)
+	O halde yeni heap size: 
+	#define configTOTAL_HEAP_SIZE ((size_t)(5*1024-3480));
+	*/
 }
 ```
 
