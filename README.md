@@ -63,7 +63,7 @@ Birçok task bulunan ve tek çekirdekli bir işlemciye sahip bir sistemde herhan
 ana durumdan birinde bulunabilir. Bunlar “running state” ve “not running state” dir. “Not running State” in alt durumları da vardır. Bunlar “Ready“,”Blocked” ve 
 “Suspended” durumlarıdır.
 
-![A](https://user-images.githubusercontent.com/75627147/199208116-370228a0-c060-4811-b69a-72b511c1a8f4.png)
+![85de44fb-1e6d-4234-a6d4-e10e4dce1111](https://user-images.githubusercontent.com/75627147/199208354-df17bd74-bb82-476b-9a3a-e0b895e89a7d.jpg)
 
 Bir task “running state” durumunda olduğu zaman işlemci o task’ın kodlarını yürütür. Bir task “not running state” durumuna geçtiğinde task bir nevi uykudadır.  
 Tekrar “running state” durumuna girdiğinde kaldığı yerden kodları yürütmeye devam eder. Bir task’ın “Not running state” den “running state”e geçmesi “switched in” 
@@ -77,7 +77,7 @@ iş parçacıklarını  belli zamanlarda belli bir önceliğe göre çalıştır
 işlemci üzerinde herhangi bir zamanda tek iş parçacığı çalıştırılır. RTOS da bu iş  parçacıkları öncelik ve zamana bağlı olarak aynı anda çalışıyormuş gibi işlemci 
 üzerinde çalışır. Zamana bağlı olduğundan dolayı gerçek zamanlı kavramı buradan gelir.
 
-![images](https://user-images.githubusercontent.com/75627147/199207390-fbd91ffe-d57f-4323-bbb7-3990750869f8.png)
+![A](https://user-images.githubusercontent.com/75627147/199208116-370228a0-c060-4811-b69a-72b511c1a8f4.png)
 
 Tasklar kendi başlarına bir bütün olmak zorunda değillerdir. Birbirileriyle aynı verilere erişim sağlayabilir ve hatta bir veriyi birbirilerine gönderebilirler. Bu 
 haberleşme mantığına **Inter Task Communication** adı verilir. Taskların ortak erişim sağladığı verilere paylaşılan kaynak (shared resource) denir. Aynı kaynağa 
