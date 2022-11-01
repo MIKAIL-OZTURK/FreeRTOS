@@ -63,7 +63,7 @@ Birçok task bulunan ve tek çekirdekli bir işlemciye sahip bir sistemde herhan
 ana durumdan birinde bulunabilir. Bunlar “running state” ve “not running state” dir. “Not running State” in alt durumları da vardır. Bunlar “Ready“,”Blocked” ve 
 “Suspended” durumlarıdır.
 
-![85de44fb-1e6d-4234-a6d4-e10e4dce1111](https://user-images.githubusercontent.com/75627147/199203188-d2bb7374-28ae-4763-acf0-f12a128a5c54.jpg)
+![A](https://user-images.githubusercontent.com/75627147/199208116-370228a0-c060-4811-b69a-72b511c1a8f4.png)
 
 Bir task “running state” durumunda olduğu zaman işlemci o task’ın kodlarını yürütür. Bir task “not running state” durumuna geçtiğinde task bir nevi uykudadır.  
 Tekrar “running state” durumuna girdiğinde kaldığı yerden kodları yürütmeye devam eder. Bir task’ın “Not running state” den “running state”e geçmesi “switched in” 
