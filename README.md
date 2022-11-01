@@ -81,7 +81,7 @@ objelerinin oluşturulduğu ve silinmediği uygulamalar için tercih edilebilir.
 dizinin boyutu FreeRTOSConfig.h dosyası içerisindeki configTOTAL_HEAP_SIZE makrosuna göre belirlenir.
 Oluşturulan her task’ın bir  task kontrol bloğu (TCB) vardır ve heap te blok olarak ayrılır.
 
-
+![heap_1](https://user-images.githubusercontent.com/75627147/199167331-74fd04ed-c532-40dd-bc35-87f0a851f40e.jpg)
 
 - A: Henüz hiçbir task oluşturulmadan önceki dizin.
 - B: Bir task oluşturulduktan sonraki dizin
@@ -94,7 +94,7 @@ Heap_2 en iyi yerleştirme algoritmasını( best fitting)  kullanır ve heap_1 d
 blokları temizler(free). Heap_2 oluşturulan task’lara ayrılan yığın boyutunun değişmediği ve task’ların tekrar 
 tekrar oluşturulup silindiği uygulamalar için uygundur.
 
-
+![heap_2](https://user-images.githubusercontent.com/75627147/199167367-8a46f2e1-c0c1-4400-abfc-d10347b71689.jpg)
 
 Yukarıdaki resimde görüldüğü gibi önceden oluşturulmuş üç task’ten biri silinmiş ve daha sonra başka bir task 
 oluşturulmuş. Son oluşturulan task daha önceden silinen bir taskın RAM’ de kapladığı alanı kullanır. Burada 
@@ -111,7 +111,7 @@ bitişik olan boş blokları tek bir blok haline getirir. Heap boyutu yine confi
 belirlenir.  Sürekli olarak task,queue,semaphore vb gibi RTOS objelerinin oluşturulup silindiği uygulamalar için 
 uygundur.
 
-
+![heap_4](https://user-images.githubusercontent.com/75627147/199167398-3a4bddac-3ad7-47f9-a15f-6d5ca2c9ca4b.jpg)
 
 Yukarıdaki resimde heap_4 ün RAM’i nasıl ayırdığı görülebilir. Burada B de bir task silindiğinde stack ve TCB için 
 ayrılan alanlar tekrardan tek bir blok haline getirilir.  C de görüldüğü üzere bir başka RTOS objesi olan Queue 
@@ -123,7 +123,8 @@ Heap_4 deterministik değildir fakat çoğu C standard library implementasyonu o
 daha verimlidir.
 
 
-**Heap_5**:  Bellek ayırma ve temizleme için kullanılan algoritma Heap_4 ile aynıdır. Heap_4 ün aksine boyutu belli  bir diziden bellek ayırmakla sınırlı değildir. Heap_5 sistem tarafından sağlanan RAM in tek bir bitişik 
+**Heap_5**:  Bellek ayırma ve temizleme için kullanılan algoritma Heap_4 ile aynıdır. Heap_4 ün aksine boyutu belli  bir 
+diziden bellek ayırmakla sınırlı değildir. Heap_5 sistem tarafından sağlanan RAM in tek bir bitişik 
 blok olarak görünmediği durumlarda kullanışlıdır. Heap_5 pvPortMalloc() fonksiyonu çağırılmadan önce başlatılması 
 gereken tek bellek ayırma şemasıdır.  Heap_5 vPortDefineHeapRegions() fonksiyonu ile başlatılır.
 
