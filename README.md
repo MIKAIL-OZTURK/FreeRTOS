@@ -1,14 +1,41 @@
+## Gerçek Zamanlı Sistem Nedir ? 
+Herhangi bir şekilde dışarıdan bir girdi aldığı zaman bu girdiye belirli bir zaman içerisinde çıktı üreten sistemler gerçek 
+zamanlı sistemdir. Örnek vermek gerekirse insansız hava araçları bizim kontrol kumandasından verdiğimiz komutlara çok kısa 
+süre içerisinde tepki verirler. Bu yüzden insansız hava araçları gerçek zamanlı sistemlerdir,
+
+İki tür gerçek zamanlı sistem vardır;                                      
+- Hard Real-Time: Sistemin gerçekleştireceği görevlerin bitirilme zamanında olası bir gecikmenin tolerans derecesi bir hayli 
+düşüktür (sıfır veya üretici tanımlı bir eşik değeri). Zamanında bitirilemeyen görevler sistem için kritiktir ve yıkıcı 
+etkiler ortaya çıkarırlar.
+Örnek vermek gerekirse medikal bir robot, ameliyat robotu. Doktorun verdiği girdilere belirlenen zaman içerisinde (mili 
+saniye, mikro saniye) tepki veremiyorsa, bu çok verimsiz bir durumdur. Tepki süresinin bir sınırın altında olması çok 
+kritiktir.
+- Soft Real-Time: Sistemin gerçekleştireceği görevlerin bitirilme zamanı hard real-time’daki kadar kritik değildir veya 
+gecikme süresi boyunca sistem bunu tolere edebilir. Örnek vermek gerekirse bir video oyununda, karaktere zıpla komutunu 
+vermek amacıyla klavyeden girdi verdiğimizde ekranda çizdirilen zıplama animasyonu grafikleri, 30 FPS baz alındığında, 
+verdiğimiz komutun ardından saniyenin 30'da 1'i kadarında ekrana çizdirilmesi gerekir bu da soft real-time’dır.
+
+### Aktarım Hızı ve Gecikme (Throughput vs Latency)
+**Gecikme (Latency)**: Bir paketin, varış hedefine taşınana kadar ki geçen zamandır.                           
+Örneğin paketi, konveyör banttaki fiziksel bir ürün olarak düşünürsek, paketin konveyör bantta ki işlemlerinin tamamlanıp 
+banttan çıkışına kadar geçen zaman gecikmeye denktir. 
+
+**Aktarım Hızı (Throughput)**: Birim zaman içerisinde gönderilen ve alınan paket miktarıdır.                                 
+Yine konveyör bant örneğinden devam edecek olursak, ilk paketin hedefe ulaşmasından itibaren biri zamanda, hadi bir dakika 
+olsun, konveyör banttan çıkış yapacak paket sayısı aktarım hızını verir.
+
+
 # FreeRTOS                             
-FreeRTOS bir mikrodenetleyici üzerinde çalışabilecek şekilde tasarlanmış bir işletim sistemidir. Gömülü 
-sistemlerde FreeRTOS gibi farklı işletim sistemleri de bulunmaktadır. Bunlardan birkaçı VxWorks,QNX,Integrity dir. 
+FreeRTOS bir mikrodenetleyici üzerinde çalışabilecek şekilde tasarlanmış bir işletim sistemidir.                  
+Gömülü sistemlerde FreeRTOS gibi farklı işletim sistemleri de bulunmaktadır. Bunlardan birkaçı VxWorks,QNX,Integrity'dir. 
 FreeRTOS bunların içinde lisanssız olanlarından. FreeRTOS ile aynı kod tabanını paylaşan lisanslı yazılımlar da 
-bulunmaktadır(OpenRTOS,SafeRTOS). 
+bulunmaktadır(OpenRTOS,SafeRTOS).        
 
 ### FreeRTOS Özellikleri
 - Pre-emptive(öncelik) veya co-operative(işbirliği) çalışması.
 - Çok esnek task önceliği atanabilmesi.
 - Esnek ve hızlı task notification(bildirim) mekanizması.
-- Queues( Kuyruklar)
+- Queues(Kuyruklar)
 - Binary ve Counting Semaphore
 - Mutex ve Recursive Mutex
 - Yazılımsal Timer’lar
@@ -16,6 +43,22 @@ bulunmaktadır(OpenRTOS,SafeRTOS).
 - Tick hook ve ıdle hook fonksiyonu
 - Stack overflow kontorolü
 - Opsiyonel ticari lisans versiyonları
+
+
+### Task Scheduling (Görev Zamanlayıcı) Nedir ? 
+Görev Zamanlayıcı her bir görevin durum kayıtlarını tutar ve yürütülmeye hazır olan görevi seçer, daha sonra işlemeciyi bu 
+göreve tahsis eder. Görev zamanlayıcı çok görev içeren programlarda CPU’nun en etkin şekilde kullanılmasını sağlar. Böylece 
+bekleme zamanını azaltır. Genel olarak iki tür görev zamanlayıcı bulunur.
+**Önceliksiz Görev Zamanlayıcı (Non-Preemptive Scheduling)**: Görevler arasında öncelik sırası yoktur ve bütün görevler aynı 
+öncelikli olarak kabul edilir. Bir görev yürütülmeye başlandığında diğer bir görev bu görevin bitmesi ile yürütülmeye başlar. 
+
+**Öncelikli Görev Zamanlayıcı (Preemtive Scheduling)**: Her zaman işlemci yüksek öncelikli görevleri kontrol eder. Eğer 
+yüksek öncelikli bir görev işlenmek için hazır ise işlemci üzerindeki görev hemen askıya alınır ve işlemcinin kontrolü yüksek 
+öncelikli göreve verilir.
+
+> **Dispatcher**: Görev zamanlayıcı tarafından seçilmiş göreve işlemcinin kontrolünü vermek için kullanılır. Bu sayede 
+> yürütme akışı değiştirilmiş olur. Bir RTOS’in çalıştığı herhangi bir zamanda yürütme akışı task program code, interrupt 
+> service routine(ISR) veya kernel’den geçer.
 
 
 ## Multitasking (Çoklu Görev)
