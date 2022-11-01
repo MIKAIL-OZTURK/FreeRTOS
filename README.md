@@ -4,13 +4,13 @@ zamanlı sistemdir. Örnek vermek gerekirse insansız hava araçları bizim kont
 süre içerisinde tepki verirler. Bu yüzden insansız hava araçları gerçek zamanlı sistemlerdir,
 
 İki tür gerçek zamanlı sistem vardır;                                      
-- Hard Real-Time: Sistemin gerçekleştireceği görevlerin bitirilme zamanında olası bir gecikmenin tolerans derecesi bir hayli 
-düşüktür (sıfır veya üretici tanımlı bir eşik değeri). Zamanında bitirilemeyen görevler sistem için kritiktir ve yıkıcı 
+- **Hard Real-Time**: Sistemin gerçekleştireceği görevlerin bitirilme zamanında olası bir gecikmenin tolerans derecesi bir 
+hayli düşüktür (sıfır veya üretici tanımlı bir eşik değeri). Zamanında bitirilemeyen görevler sistem için kritiktir ve yıkıcı 
 etkiler ortaya çıkarırlar.
 Örnek vermek gerekirse medikal bir robot, ameliyat robotu. Doktorun verdiği girdilere belirlenen zaman içerisinde (mili 
 saniye, mikro saniye) tepki veremiyorsa, bu çok verimsiz bir durumdur. Tepki süresinin bir sınırın altında olması çok 
-kritiktir.
-- Soft Real-Time: Sistemin gerçekleştireceği görevlerin bitirilme zamanı hard real-time’daki kadar kritik değildir veya 
+kritiktir.                               
+- **Soft Real-Time**: Sistemin gerçekleştireceği görevlerin bitirilme zamanı hard real-time’daki kadar kritik değildir veya 
 gecikme süresi boyunca sistem bunu tolere edebilir. Örnek vermek gerekirse bir video oyununda, karaktere zıpla komutunu 
 vermek amacıyla klavyeden girdi verdiğimizde ekranda çizdirilen zıplama animasyonu grafikleri, 30 FPS baz alındığında, 
 verdiğimiz komutun ardından saniyenin 30'da 1'i kadarında ekrana çizdirilmesi gerekir bu da soft real-time’dır.
@@ -24,11 +24,12 @@ banttan çıkışına kadar geçen zaman gecikmeye denktir.
 Yine konveyör bant örneğinden devam edecek olursak, ilk paketin hedefe ulaşmasından itibaren biri zamanda, hadi bir dakika 
 olsun, konveyör banttan çıkış yapacak paket sayısı aktarım hızını verir.
 
+![download](https://user-images.githubusercontent.com/75627147/199172249-d1885e2d-0688-4ee0-b753-a30a25360437.png)
+
 ### Çekirdek (Kernel) Nedir ? 
 Çekirdek, bilgisayarda donanım (hardware) ve yazılım (software) arasındaki bağlantıyı sağlayan arabirime verilen isimdir. 
 İşletim sistemi çalışırken sistemdeki temel işlemler arasındaki iletişimi kurarak işlemci yönetimi, bellek yönetimi ve G/
 Ç(giris-çıkış)  işlemleri gibi daha pek çok işlemin yürütülmesinde ve işlemlerin paylaşılmasında görev alır.
-
 
 # FreeRTOS                             
 FreeRTOS bir mikrodenetleyici üzerinde çalışabilecek şekilde tasarlanmış bir işletim sistemidir.                  
@@ -49,7 +50,6 @@ bulunmaktadır(OpenRTOS,SafeRTOS).
 - Stack overflow kontorolü
 - Opsiyonel ticari lisans versiyonları
 
-
 ### Task Scheduling (Görev Zamanlayıcı) Nedir ? 
 Görev Zamanlayıcı her bir görevin durum kayıtlarını tutar ve yürütülmeye hazır olan görevi seçer, daha sonra işlemeciyi bu 
 göreve tahsis eder. Görev zamanlayıcı çok görev içeren programlarda CPU’nun en etkin şekilde kullanılmasını sağlar. Böylece 
@@ -61,10 +61,24 @@ bekleme zamanını azaltır. Genel olarak iki tür görev zamanlayıcı bulunur.
 yüksek öncelikli bir görev işlenmek için hazır ise işlemci üzerindeki görev hemen askıya alınır ve işlemcinin kontrolü yüksek 
 öncelikli göreve verilir.
 
+![Figure-1_600x400](https://user-images.githubusercontent.com/75627147/199172795-e18489be-ab19-4b1f-9a26-7158bba07684.jpg)
+
 > **Dispatcher**: Görev zamanlayıcı tarafından seçilmiş göreve işlemcinin kontrolünü vermek için kullanılır. Bu sayede 
 > yürütme akışı değiştirilmiş olur. Bir RTOS’in çalıştığı herhangi bir zamanda yürütme akışı task program code, interrupt 
 > service routine(ISR) veya kernel’den geçer.
 
+## Task (Görev)
+RTOS kullanan gerçek zamanlı uygulamalarda birbirinden bağımsız iş parçacıkları bulunabilir. Bu iş parçacıkları FreeRTOS da “task“, CMSIS_RTOS da ise”thread” olarak 
+isimlendirilir. Bu task’ların kendilerine ait sonsuz döngüleri olabilir. Her task’ı main fonksiyonu ve bunun içinde sonsuz döngüsü olan bir program gibi 
+düşünebiliriz.
+
+Birçok task bulunan ve tek çekirdekli bir işlemciye sahip bir sistemde herhangi bir zamanda sadece tek bir task CPU üzerinde çalıştırılır. Buna göre bir task iki 
+ana durumdan birinde bulunabilir. Bunlar “running state” ve “not running state” dir. “Not running State” in alt durumları da vardır. Bunlar “Ready“,”Blocked” ve 
+“Suspended” durumlarıdır.
+Bir task “running state” durumunda olduğu zaman işlemci o task’ın kodlarını yürütür. Bir task “not running state” durumuna geçtiğinde task bir nevi uykudadır.  
+Tekrar “running state” durumuna girdiğinde kaldığı yerden kodları yürütmeye devam eder. Bir task’ın “Not running state” den “running state”e geçmesi “switched in” 
+veya “swaped in” olarak adlandırılır. Tam tersi durumda ise “switched out” veya “swapped out” olarak adlandırılır. Burada task’ları switch in veya out yapmakta 
+sadece scheduler(zamanlayıcı) yetkilidir.
 
 ## Multitasking (Çoklu Görev)
 FreeRTOS, gömülü uygulamaların hard real-time gereksinimlerini karşılamak için oluşturulmuş bir gerçek zamanlı 
@@ -83,7 +97,8 @@ olduğundan dolayı gerçek zamanlı kavramı buradan gelir.
 
 
 ## Neden Real-Time Kernel Kullanırız?
-- Kernel execution timing ten sorumludur ve uygulamaya zamanla ilgili bir API sağlar. Böylece uygulama kodunun daha basit ve boyutunun küçük olmasını sağlar.
+- Kernel execution timing ten sorumludur ve uygulamaya zamanla ilgili bir API sağlar. Böylece uygulama kodunun daha basit ve 
+boyutunun küçük olmasını sağlar.
 - Modülerlik; Task’lar her biri iyi tanımlanmış birer modüldür.
 - Task’lar aynı zamanda iyi tanımlanmış birer arayüzdür. Böylece geliştirmeyi takım ile yapmayı kolaylaştırır.
 - Testleri kolaydır.
