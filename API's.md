@@ -1,4 +1,4 @@
-# FreeRTOS | API's          
+# FreeRTOS | Multitasking        
 
 ### 1.Task Oluşturmak                    
 
