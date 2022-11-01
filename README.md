@@ -24,7 +24,8 @@ banttan çıkışına kadar geçen zaman gecikmeye denktir.
 Yine konveyör bant örneğinden devam edecek olursak, ilk paketin hedefe ulaşmasından itibaren biri zamanda, hadi bir dakika 
 olsun, konveyör banttan çıkış yapacak paket sayısı aktarım hızını verir.
 
-![download](https://user-images.githubusercontent.com/75627147/199172249-d1885e2d-0688-4ee0-b753-a30a25360437.png)
+![Copy of Copy of Copy of Copy of Copy of Dual-Band(1)](https://user-images.githubusercontent.com/75627147/199201889-20159cf3-2e5e-44f2-b120-9ac42956dc05.png)
+
 
 ### Çekirdek (Kernel) Nedir ? 
 Çekirdek, bilgisayarda donanım (hardware) ve yazılım (software) arasındaki bağlantıyı sağlayan arabirime verilen isimdir. 
@@ -50,31 +51,17 @@ bulunmaktadır(OpenRTOS,SafeRTOS).
 - Stack overflow kontorolü
 - Opsiyonel ticari lisans versiyonları
 
-### Task Scheduling (Görev Zamanlayıcı) Nedir ? 
-Görev Zamanlayıcı her bir görevin durum kayıtlarını tutar ve yürütülmeye hazır olan görevi seçer, daha sonra işlemeciyi bu 
-göreve tahsis eder. Görev zamanlayıcı çok görev içeren programlarda CPU’nun en etkin şekilde kullanılmasını sağlar. Böylece 
-bekleme zamanını azaltır. Genel olarak iki tür görev zamanlayıcı bulunur.
-**Önceliksiz Görev Zamanlayıcı (Non-Preemptive Scheduling)**: Görevler arasında öncelik sırası yoktur ve bütün görevler aynı 
-öncelikli olarak kabul edilir. Bir görev yürütülmeye başlandığında diğer bir görev bu görevin bitmesi ile yürütülmeye başlar. 
-
-**Öncelikli Görev Zamanlayıcı (Preemtive Scheduling)**: Her zaman işlemci yüksek öncelikli görevleri kontrol eder. Eğer 
-yüksek öncelikli bir görev işlenmek için hazır ise işlemci üzerindeki görev hemen askıya alınır ve işlemcinin kontrolü yüksek 
-öncelikli göreve verilir.
-
-![Figure-1_600x400](https://user-images.githubusercontent.com/75627147/199172795-e18489be-ab19-4b1f-9a26-7158bba07684.jpg)
-
-> **Dispatcher**: Görev zamanlayıcı tarafından seçilmiş göreve işlemcinin kontrolünü vermek için kullanılır. Bu sayede 
-> yürütme akışı değiştirilmiş olur. Bir RTOS’in çalıştığı herhangi bir zamanda yürütme akışı task program code, interrupt 
-> service routine(ISR) veya kernel’den geçer.
-
 ## Task (Görev)
-RTOS kullanan gerçek zamanlı uygulamalarda birbirinden bağımsız iş parçacıkları bulunabilir. Bu iş parçacıkları FreeRTOS da “task“, CMSIS_RTOS da ise”thread” olarak 
-isimlendirilir. Bu task’ların kendilerine ait sonsuz döngüleri olabilir. Her task’ı main fonksiyonu ve bunun içinde sonsuz döngüsü olan bir program gibi 
+RTOS kullanan gerçek zamanlı uygulamalarda birbirinden bağımsız iş parçacıkları bulunabilir. Bu iş parçacıkları FreeRTOS da **task**, CMSIS_RTOS da ise**thread** 
+olarak isimlendirilir. Bu task’ların kendilerine ait sonsuz döngüleri olabilir. Her task’ı main fonksiyonu ve bunun içinde sonsuz döngüsü olan bir program gibi 
 düşünebiliriz.
 
 Birçok task bulunan ve tek çekirdekli bir işlemciye sahip bir sistemde herhangi bir zamanda sadece tek bir task CPU üzerinde çalıştırılır. Buna göre bir task iki 
 ana durumdan birinde bulunabilir. Bunlar “running state” ve “not running state” dir. “Not running State” in alt durumları da vardır. Bunlar “Ready“,”Blocked” ve 
 “Suspended” durumlarıdır.
+
+![85de44fb-1e6d-4234-a6d4-e10e4dce1111](https://user-images.githubusercontent.com/75627147/199203188-d2bb7374-28ae-4763-acf0-f12a128a5c54.jpg)
+
 Bir task “running state” durumunda olduğu zaman işlemci o task’ın kodlarını yürütür. Bir task “not running state” durumuna geçtiğinde task bir nevi uykudadır.  
 Tekrar “running state” durumuna girdiğinde kaldığı yerden kodları yürütmeye devam eder. Bir task’ın “Not running state” den “running state”e geçmesi “switched in” 
 veya “swaped in” olarak adlandırılır. Tam tersi durumda ise “switched out” veya “swapped out” olarak adlandırılır. Burada task’ları switch in veya out yapmakta 
@@ -92,9 +79,22 @@ olduğundan dolayı gerçek zamanlı kavramı buradan gelir.
 > Gerçek zamanlı sistemlerde hard real-time gereksinime sahip thread’ler soft real-time gereksinime sahip 
 > thread’lere göre daha öncelikli olarak çalıştırılır.
 
-> FreeRTOS da her bir iş parçacığı “task” olarak isimlendirilir fakat daha spesifik adı “thread”‘tir ve genellikle 
-> thread daha çok kullanılır.
+### Task Scheduling (Görev Zamanlayıcı) Nedir ? 
+Görev Zamanlayıcı her bir görevin durum kayıtlarını tutar ve yürütülmeye hazır olan görevi seçer, daha sonra işlemeciyi bu 
+göreve tahsis eder. Görev zamanlayıcı çok görev içeren programlarda CPU’nun en etkin şekilde kullanılmasını sağlar. Böylece 
+bekleme zamanını azaltır. Genel olarak iki tür görev zamanlayıcı bulunur.
+**Önceliksiz Görev Zamanlayıcı (Non-Preemptive Scheduling)**: Görevler arasında öncelik sırası yoktur ve bütün görevler aynı 
+öncelikli olarak kabul edilir. Bir görev yürütülmeye başlandığında diğer bir görev bu görevin bitmesi ile yürütülmeye başlar. 
 
+**Öncelikli Görev Zamanlayıcı (Preemtive Scheduling)**: Her zaman işlemci yüksek öncelikli görevleri kontrol eder. Eğer 
+yüksek öncelikli bir görev işlenmek için hazır ise işlemci üzerindeki görev hemen askıya alınır ve işlemcinin kontrolü yüksek 
+öncelikli göreve verilir.
+
+![Figure-1_600x400](https://user-images.githubusercontent.com/75627147/199172795-e18489be-ab19-4b1f-9a26-7158bba07684.jpg)
+
+> **Dispatcher**: Görev zamanlayıcı tarafından seçilmiş göreve işlemcinin kontrolünü vermek için kullanılır. Bu sayede 
+> yürütme akışı değiştirilmiş olur. Bir RTOS’in çalıştığı herhangi bir zamanda yürütme akışı task program code, interrupt 
+> service routine(ISR) veya kernel’den geçer.
 
 ## Neden Real-Time Kernel Kullanırız?
 - Kernel execution timing ten sorumludur ve uygulamaya zamanla ilgili bir API sağlar. Böylece uygulama kodunun daha basit ve 
