@@ -32,6 +32,9 @@ olsun, konveyör banttan çıkış yapacak paket sayısı aktarım hızını ver
 İşletim sistemi çalışırken sistemdeki temel işlemler arasındaki iletişimi kurarak işlemci yönetimi, bellek yönetimi ve G/
 Ç(giris-çıkış)  işlemleri gibi daha pek çok işlemin yürütülmesinde ve işlemlerin paylaşılmasında görev alır.
 
+![1](https://user-images.githubusercontent.com/75627147/199206499-a512bfa7-2ff6-49f7-9b65-406260557bc7.png)
+
+
 # FreeRTOS                             
 FreeRTOS bir mikrodenetleyici üzerinde çalışabilecek şekilde tasarlanmış bir işletim sistemidir.                  
 Gömülü sistemlerde FreeRTOS gibi farklı işletim sistemleri de bulunmaktadır. Bunlardan birkaçı VxWorks,QNX,Integrity'dir. 
@@ -68,13 +71,18 @@ veya “swaped in” olarak adlandırılır. Tam tersi durumda ise “switched o
 sadece scheduler(zamanlayıcı) yetkilidir.
 
 ## Multitasking (Çoklu Görev)
-FreeRTOS, gömülü uygulamaların hard real-time gereksinimlerini karşılamak için oluşturulmuş bir gerçek zamanlı 
-kernel’dır. FreeRTOS birden fazla işin(task veya thread) organize olarak çalışmasını sağlar. Buna da multitasking 
-denir. RTOS da task(veya thread) olarak isimlendirilen iş parçacıkları bulunmaktadır. İşlemci bu iş parçacıklarını 
-belli zamanlarda belli bir önceliğe göre çalıştırır yani birden fazla işi aynı anda yapar(yapıyormuş gibi görünür).
-Aslında tek çekirdekli işlemci üzerinde herhangi bir zamanda tek iş parçacığı çalıştırılır. RTOS da bu iş 
-parçacıkları öncelik ve zamana bağlı olarak aynı anda çalışıyormuş gibi işlemci üzerinde çalışır. Zamana bağlı 
-olduğundan dolayı gerçek zamanlı kavramı buradan gelir.
+FreeRTOS, gömülü uygulamaların hard real-time gereksinimlerini karşılamak için oluşturulmuş bir gerçek zamanlı kernel’dır. FreeRTOS birden fazla işin(task veya 
+thread) organize olarak çalışmasını sağlar. Buna da multitasking  denir. RTOS da task(veya thread) olarak isimlendirilen iş parçacıkları bulunmaktadır. İşlemci bu 
+iş parçacıklarını  belli zamanlarda belli bir önceliğe göre çalıştırır yani birden fazla işi aynı anda yapar(yapıyormuş gibi görünür). Aslında tek çekirdekli 
+işlemci üzerinde herhangi bir zamanda tek iş parçacığı çalıştırılır. RTOS da bu iş  parçacıkları öncelik ve zamana bağlı olarak aynı anda çalışıyormuş gibi işlemci 
+üzerinde çalışır. Zamana bağlı olduğundan dolayı gerçek zamanlı kavramı buradan gelir.
+
+![images](https://user-images.githubusercontent.com/75627147/199207390-fbd91ffe-d57f-4323-bbb7-3990750869f8.png)
+
+Tasklar kendi başlarına bir bütün olmak zorunda değillerdir. Birbirileriyle aynı verilere erişim sağlayabilir ve hatta bir veriyi birbirilerine gönderebilirler. Bu 
+haberleşme mantığına **Inter Task Communication** adı verilir. Taskların ortak erişim sağladığı verilere paylaşılan kaynak (shared resource) denir. Aynı kaynağa 
+erişim sağlayan tasklar varsa bunun bir kuralı olmak zorunda olduğunu hemen araya sıkıştırayım.
+
 
 > Gerçek zamanlı sistemlerde hard real-time gereksinime sahip thread’ler soft real-time gereksinime sahip 
 > thread’lere göre daha öncelikli olarak çalıştırılır.
@@ -90,7 +98,9 @@ bekleme zamanını azaltır. Genel olarak iki tür görev zamanlayıcı bulunur.
 yüksek öncelikli bir görev işlenmek için hazır ise işlemci üzerindeki görev hemen askıya alınır ve işlemcinin kontrolü yüksek 
 öncelikli göreve verilir.
 
-![Figure-1_600x400](https://user-images.githubusercontent.com/75627147/199172795-e18489be-ab19-4b1f-9a26-7158bba07684.jpg)
+![1](https://user-images.githubusercontent.com/75627147/199207196-65cd314f-76a3-464b-92f2-476f1203ffb6.jpg)
+
+
 
 > **Dispatcher**: Görev zamanlayıcı tarafından seçilmiş göreve işlemcinin kontrolünü vermek için kullanılır. Bu sayede 
 > yürütme akışı değiştirilmiş olur. Bir RTOS’in çalıştığı herhangi bir zamanda yürütme akışı task program code, interrupt 
