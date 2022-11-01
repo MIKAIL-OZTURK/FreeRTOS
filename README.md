@@ -24,6 +24,11 @@ banttan çıkışına kadar geçen zaman gecikmeye denktir.
 Yine konveyör bant örneğinden devam edecek olursak, ilk paketin hedefe ulaşmasından itibaren biri zamanda, hadi bir dakika 
 olsun, konveyör banttan çıkış yapacak paket sayısı aktarım hızını verir.
 
+### Çekirdek (Kernel) Nedir ? 
+Çekirdek, bilgisayarda donanım (hardware) ve yazılım (software) arasındaki bağlantıyı sağlayan arabirime verilen isimdir. 
+İşletim sistemi çalışırken sistemdeki temel işlemler arasındaki iletişimi kurarak işlemci yönetimi, bellek yönetimi ve G/
+Ç(giris-çıkış)  işlemleri gibi daha pek çok işlemin yürütülmesinde ve işlemlerin paylaşılmasında görev alır.
+
 
 # FreeRTOS                             
 FreeRTOS bir mikrodenetleyici üzerinde çalışabilecek şekilde tasarlanmış bir işletim sistemidir.                  
