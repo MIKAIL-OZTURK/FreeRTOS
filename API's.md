@@ -27,7 +27,7 @@ tipinin kesin olmadığı(int ,float,char vb) zamanlarda void* ile parametre ge�
 
 ###### ÖRNEK
 ```c
-#define USART_TRANSMIT(__MESSAGE__) 		( HAL_UART_Transmit(&huart1, (uint8_t*)__MESSAGE__, strlen(__MESSAGE__), 6) 100)
+#define USART_TRANSMIT(__MESSAGE__) 		( HAL_UART_Transmit(&huart1, (uint8_t*)__MESSAGE__, strlen(__MESSAGE__), 100)
 
 void Task1(void *pvParammeters)
 {
