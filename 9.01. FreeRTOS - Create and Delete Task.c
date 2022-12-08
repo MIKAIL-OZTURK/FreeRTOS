@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+/* Private includes ----------------------------------------------------------*/
+#include "FreeRTOS.h"
+#include "task.h"
+
+/* Private variables ---------------------------------------------------------*/
+TaskHandle_t myTask1Handle = NULL;
+int count = 0;
+int pass = 25;
+
+/* Private function prototypes -----------------------------------------------*/
+void Task1(void *argument);
+
+
+int main(void)
+{
+    /* Task is created -----------------------------------------------*/
+    vTaskCreate(myTask1, "task1", 200, (void*)pass, tskIDLE_PRIORITY, &myTask1Handle);
+    vTaskStartScheduler();
+
+    while(1)
+    {
+        ;
+    }
+}
+
+/* Task1 ---------------------------------------------------------*/
+void Task1(void *argument)
+{
+    while(1)
+    {
+        printf("Task1 is running..., %d",count++);
+        vTaskDelay(1000 *(configTICK_RATE_HZ / 1000));  
+        
+        if(count == 30)
+        {
+            vTaskDelete(myTask1Handle); // Task1 is deleted
+        }
+    }
+}
